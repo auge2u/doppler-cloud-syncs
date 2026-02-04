@@ -1,11 +1,13 @@
 export { DopplerClient, type DopplerConfig, type DopplerSecret } from './doppler.js';
 export { FirebaseClient, type FirebaseConfig } from './firebase.js';
 export { CloudflareClient, type CloudflareConfig } from './cloudflare.js';
+export { NeonClient, type NeonConfig, type NeonProject, type NeonBranch, type NeonConnectionInfo } from './neon.js';
 
 import type { DcsConfig } from '../config/index.js';
 import { DopplerClient } from './doppler.js';
 import { FirebaseClient } from './firebase.js';
 import { CloudflareClient } from './cloudflare.js';
+import { NeonClient } from './neon.js';
 
 export type Platform = 'firebase' | 'cloudflare' | 'neon' | 'gcp';
 
@@ -26,6 +28,14 @@ export function createDopplerClient(config: DcsConfig, environment: string): Dop
   return new DopplerClient({
     project: config.doppler.project,
     config: dopplerConfig,
+  });
+}
+
+export function createNeonClient(apiKey: string, config?: DcsConfig): NeonClient {
+  return new NeonClient({
+    apiKey,
+    projectId: config?.platforms.neon?.project_id,
+    orgId: config?.platforms.neon?.org_id,
   });
 }
 

@@ -1,10 +1,17 @@
 import { z } from 'zod';
 
+export const neonConfigSchema = z.object({
+  project_id: z.string().optional(),
+  project_name: z.string().optional(),
+  org_id: z.string().optional(),
+  branch_mapping: z.record(z.string()).optional(),
+  database: z.string().default('neondb'),
+  role: z.string().optional(),
+  migrations_dir: z.string().default('./migrations'),
+});
+
 export const platformConfigSchema = z.object({
-  neon: z.object({
-    project_id: z.string().optional(),
-    branch_mapping: z.record(z.string()).optional(),
-  }).optional(),
+  neon: neonConfigSchema.optional(),
   firebase: z.object({
     project_id: z.string(),
   }).optional(),
