@@ -1,0 +1,63 @@
+{
+  "name": "@auge2u/dcs-runtime",
+  "version": "0.1.0",
+  "description": "Runtime secret injection for serverless platforms",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./firebase": {
+      "import": "./dist/adapters/firebase.js",
+      "types": "./dist/adapters/firebase.d.ts"
+    },
+    "./cloudflare": {
+      "import": "./dist/adapters/cloudflare.js",
+      "types": "./dist/adapters/cloudflare.d.ts"
+    },
+    "./cloudrun": {
+      "import": "./dist/adapters/cloudrun.js",
+      "types": "./dist/adapters/cloudrun.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "firebase-functions": ">=4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "firebase-functions": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "doppler",
+    "secrets",
+    "serverless",
+    "firebase",
+    "cloudflare",
+    "workers"
+  ]
+}
