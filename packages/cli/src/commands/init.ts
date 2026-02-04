@@ -95,7 +95,7 @@ async function promptForConfig(options: { name?: string; yes?: boolean }): Promi
       choices: [
         { name: 'Firebase Functions', value: 'firebase' },
         { name: 'Cloudflare Workers', value: 'cloudflare' },
-        { name: 'Neon (coming soon)', value: 'neon', disabled: true },
+        { name: 'Neon Database', value: 'neon' },
         { name: 'GCP Cloud Run (coming soon)', value: 'gcp', disabled: true },
       ],
     },

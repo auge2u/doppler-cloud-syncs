@@ -4,6 +4,8 @@ import { registerSyncCommand } from './sync.js';
 import { registerStatusCommand } from './status.js';
 import { registerRunCommand } from './run.js';
 import { registerDiffCommand } from './diff.js';
+import { registerProvisionCommand } from './provision.js';
+import { registerNeonCommand } from './neon.js';
 
 export function registerCommands(program: Command): void {
   registerInitCommand(program);
@@ -11,4 +13,6 @@ export function registerCommands(program: Command): void {
   registerStatusCommand(program);
   registerRunCommand(program);
   registerDiffCommand(program);
+  registerProvisionCommand(program);
+  registerNeonCommand(program);
 }
