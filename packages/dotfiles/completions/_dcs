@@ -1,0 +1,194 @@
+#compdef dcs
+# Zsh completion for dcs (Doppler Cloud Sync)
+# Install: Place in a directory in your $fpath, e.g.:
+#   cp _dcs ~/.zsh/completions/_dcs
+#   # Ensure ~/.zsh/completions is in fpath
+
+local -a commands
+commands=(
+  'init:Initialize a new dcs project'
+  'sync:Sync secrets from Doppler to platforms'
+  'status:Show sync status across all platforms'
+  'run:Run a command with secrets injected'
+  'diff:Show differences between Doppler and platforms'
+  'provision:Provision cloud resources and populate Doppler'
+  'neon:Neon database management commands'
+  'hooks:Manage git hooks for automatic secret syncing'
+  'webhook:Manage Doppler webhooks for automatic sync'
+  'help:Display help for command'
+)
+
+local -a platforms
+platforms=('firebase:Firebase Functions' 'cloudflare:Cloudflare Workers' 'neon:Neon Database' 'gcp:Google Cloud Platform')
+
+local -a environments
+environments=('dev:Development' 'stg:Staging' 'prd:Production')
+
+_dcs() {
+  _arguments -C \
+    '-V[Output version number]' \
+    '--version[Output version number]' \
+    '-h[Display help]' \
+    '--help[Display help]' \
+    '1: :->command' \
+    '*:: :->args'
+
+  case $state in
+    command)
+      _describe -t commands 'dcs command' commands
+      ;;
+    args)
+      case $words[1] in
+        init)
+          _arguments \
+            '-p[Doppler project name]:project:' \
+            '--project[Doppler project name]:project:' \
+            '-y[Skip prompts, use defaults]' \
+            '--yes[Skip prompts, use defaults]'
+          ;;
+        sync)
+          _arguments \
+            '-c[Environment config to sync]:environment:(dev stg prd)' \
+            '--config[Environment config to sync]:environment:(dev stg prd)' \
+            '--dry-run[Show what would be synced without making changes]' \
+            '-q[Minimal output]' \
+            '--quiet[Minimal output]' \
+            '1:platform:(firebase cloudflare neon gcp)'
+          ;;
+        status)
+          _arguments \
+            '-c[Environment config]:environment:(dev stg prd)' \
+            '--config[Environment config]:environment:(dev stg prd)'
+          ;;
+        run)
+          _arguments \
+            '-c[Environment config]:environment:(dev stg prd)' \
+            '--config[Environment config]:environment:(dev stg prd)' \
+            '*:command:_command_names -e'
+          ;;
+        diff)
+          _arguments \
+            '-c[Environment config]:environment:(dev stg prd)' \
+            '--config[Environment config]:environment:(dev stg prd)' \
+            '1:platform:(firebase cloudflare neon gcp)'
+          ;;
+        provision)
+          _arguments \
+            '1: :->prov_command' \
+            '*:: :->prov_args'
+          case $state in
+            prov_command)
+              _describe -t platforms 'platform to provision' platforms
+              ;;
+            prov_args)
+              case $words[1] in
+                neon)
+                  _arguments \
+                    '--name[Project name]:name:' \
+                    '--org[Organization ID]:org:' \
+                    '--region[Region]:region:(aws-us-east-1 aws-us-west-2 aws-eu-central-1)'
+                  ;;
+              esac
+              ;;
+          esac
+          ;;
+        neon)
+          local -a neon_commands
+          neon_commands=(
+            'branch:Manage Neon branches'
+            'migrate:Run database migrations'
+          )
+          _arguments \
+            '1: :->neon_command' \
+            '*:: :->neon_args'
+          case $state in
+            neon_command)
+              _describe -t commands 'neon command' neon_commands
+              ;;
+            neon_args)
+              case $words[1] in
+                branch)
+                  local -a branch_commands
+                  branch_commands=('create' 'delete' 'list' 'reset')
+                  _describe -t commands 'branch command' branch_commands
+                  ;;
+                migrate)
+                  local -a migrate_commands
+                  migrate_commands=('up' 'down' 'status')
+                  _describe -t commands 'migrate command' migrate_commands
+                  ;;
+              esac
+              ;;
+          esac
+          ;;
+        hooks)
+          local -a hooks_commands
+          hooks_commands=(
+            'install:Install git hooks for automatic secret syncing'
+            'uninstall:Remove dcs git hooks'
+            'status:Show installed hook status'
+          )
+          _arguments \
+            '1: :->hooks_command' \
+            '*:: :->hooks_args'
+          case $state in
+            hooks_command)
+              _describe -t commands 'hooks command' hooks_commands
+              ;;
+            hooks_args)
+              case $words[1] in
+                install)
+                  _arguments \
+                    '-f[Overwrite existing hooks]' \
+                    '--force[Overwrite existing hooks]' \
+                    '--hook[Install specific hook]:hook:(post-checkout post-merge all)'
+                  ;;
+                uninstall)
+                  _arguments \
+                    '--hook[Remove specific hook]:hook:(post-checkout post-merge all)'
+                  ;;
+              esac
+              ;;
+          esac
+          ;;
+        webhook)
+          local -a webhook_commands
+          webhook_commands=(
+            'serve:Start a local webhook server for testing'
+            'handler:Generate webhook handler code for deployment'
+            'info:Show webhook configuration info'
+          )
+          _arguments \
+            '1: :->webhook_command' \
+            '*:: :->webhook_args'
+          case $state in
+            webhook_command)
+              _describe -t commands 'webhook command' webhook_commands
+              ;;
+            webhook_args)
+              case $words[1] in
+                serve)
+                  _arguments \
+                    '-p[Port to listen on]:port:' \
+                    '--port[Port to listen on]:port:' \
+                    '-s[Webhook signing secret]:secret:' \
+                    '--secret[Webhook signing secret]:secret:' \
+                    '--platforms[Comma-separated platforms to sync]:platforms:'
+                  ;;
+                handler)
+                  _arguments \
+                    '--platform[Target platform]:platform:(express cloudflare firebase)'
+                  ;;
+              esac
+              ;;
+          esac
+          ;;
+        help)
+          _describe -t commands 'command' commands
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_dcs "$@"

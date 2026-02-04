@@ -4,14 +4,20 @@ Unified secret management across cloud platforms using Doppler as the source of 
 
 ## Packages
 
-- **@auge2u/dcs** - CLI for syncing secrets (`packages/cli`)
-- **@auge2u/dcs-runtime** - Runtime adapters (Phase 3)
+| Package | Description |
+|---------|-------------|
+| **@auge2u/dcs** | CLI for syncing secrets |
+| **@auge2u/dcs-runtime** | Runtime adapters for serverless platforms |
+| **@auge2u/dcs-dotfiles** | Shell integration and completions |
 
 ## Quick Start
 
 ```bash
-# Install CLI
-npm install -g @auge2u/dcs
+# Install CLI and shell integration
+npm install -g @auge2u/dcs @auge2u/dcs-dotfiles
+
+# Set up shell integration
+dcs-dotfiles-install
 
 # Initialize project
 dcs init
@@ -19,6 +25,9 @@ dcs init
 # Provision Neon database
 export NEON_API_KEY=your-key
 dcs provision neon
+
+# Install git hooks for auto-sync
+dcs hooks install
 
 # Sync secrets to platforms
 dcs sync
@@ -63,6 +72,87 @@ dcs neon migrate --dry-run    # Preview migrations
 dcs neon status
 ```
 
+### Git Hooks
+
+```bash
+dcs hooks install     # Install post-checkout & post-merge hooks
+dcs hooks uninstall   # Remove dcs-managed hooks
+dcs hooks status      # Show hook installation status
+```
+
+### Webhooks
+
+```bash
+dcs webhook serve     # Start local webhook server for testing
+dcs webhook handler   # Generate handler code for deployment
+dcs webhook info      # Show setup instructions
+```
+
+## Runtime Adapters
+
+Use `@auge2u/dcs-runtime` for serverless platforms:
+
+### Firebase Functions
+
+```typescript
+import { withSecrets } from '@auge2u/dcs-runtime/firebase';
+
+export const api = withSecrets(
+  { keys: ['API_KEY', 'DATABASE_URL'] },
+  (req, res, secrets) => {
+    const apiKey = secrets.API_KEY;
+    res.json({ status: 'ok' });
+  }
+);
+```
+
+### Cloudflare Workers
+
+```typescript
+import { withSecrets } from '@auge2u/dcs-runtime/cloudflare';
+
+export default withSecrets(
+  { keys: ['API_KEY'] },
+  {
+    async fetch(request, env, secrets, ctx) {
+      return new Response(`Key: ${secrets.API_KEY}`);
+    }
+  }
+);
+```
+
+### Cloud Run / Express
+
+```typescript
+import { initSecrets, getSecret } from '@auge2u/dcs-runtime/cloudrun';
+
+await initSecrets({ keys: ['API_KEY', 'DATABASE_URL'] });
+
+app.get('/api', (req, res) => {
+  const apiKey = getSecret('API_KEY');
+  res.json({ status: 'ok' });
+});
+```
+
+## Shell Integration
+
+Install `@auge2u/dcs-dotfiles` for enhanced shell features:
+
+- **Auto-environment detection**: Selects Doppler config based on git branch
+- **Shell completions**: Full tab completion for bash and zsh
+- **Aliases**: `dcss` (sync), `dcst` (status), `dcsr` (run), `dcsd` (diff)
+- **Quick commands**: `dcs-dev`, `dcs-stg`, `dcs-prd`, `dcs-context`
+
+### Branch to Environment Mapping
+
+| Branch | Environment |
+|--------|-------------|
+| `main`, `master`, `production` | `prd` |
+| `staging` | `stg` |
+| `develop`, `development` | `dev` |
+| `feature/*`, `fix/*` | `dev` |
+| `release/*` | `stg` |
+
 ## Configuration
 
 Create `dcs.yaml` in your project root:
@@ -96,8 +186,11 @@ platforms:
 
 ## Environment Variables
 
-- `NEON_API_KEY` - Neon API key for database operations
-- `DOPPLER_TOKEN` - Doppler service token (optional, uses CLI auth by default)
+| Variable | Description |
+|----------|-------------|
+| `NEON_API_KEY` | Neon API key for database operations |
+| `DOPPLER_TOKEN` | Doppler service token (optional, uses CLI auth by default) |
+| `DOPPLER_WEBHOOK_SECRET` | Secret for verifying Doppler webhook signatures |
 
 ## Development
 
@@ -111,12 +204,6 @@ pnpm build
 # Run tests
 pnpm test
 ```
-
-## Documentation
-
-- [Design Document](docs/plans/2026-02-04-dcs-cli-design.md)
-- [Phase 1: Core CLI](docs/plans/2026-02-04-phase1-core-cli.md)
-- [Phase 2: Neon Integration](docs/plans/2026-02-04-phase2-neon-integration.md)
 
 ## License
 

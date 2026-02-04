@@ -1,0 +1,34 @@
+{
+  "name": "@auge2u/dcs-dotfiles",
+  "version": "0.1.0",
+  "description": "Shell integration and completions for dcs (Doppler Cloud Sync)",
+  "type": "module",
+  "license": "MIT",
+  "author": "auge2u",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/auge2u/doppler-cloud-syncs.git",
+    "directory": "packages/dotfiles"
+  },
+  "files": [
+    "shell",
+    "completions",
+    "install.sh",
+    "README.md"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "bin": {
+    "dcs-dotfiles-install": "./install.sh"
+  },
+  "keywords": [
+    "doppler",
+    "secrets",
+    "dotfiles",
+    "shell",
+    "completions",
+    "zsh",
+    "bash"
+  ]
+}
