@@ -20,5 +20,5 @@
     "packages/cli/src/errors.ts",
     "packages/cli/src/commands/"
   ],
-  "status": "pending"
+  "status": "completed"
 }

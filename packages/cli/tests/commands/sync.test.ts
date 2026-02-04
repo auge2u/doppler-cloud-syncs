@@ -149,20 +149,18 @@ describe('sync command', () => {
     it('should report platform not configured error', async () => {
       vi.mocked(createPlatformClients).mockReturnValue({});
 
-      await program.parseAsync(['node', 'test', 'sync', 'firebase']);
-
-      // Firebase not in clients, so should report error
-      expect(exitSpy).toHaveBeenCalledWith(1);
+      await expect(
+        program.parseAsync(['node', 'test', 'sync', 'firebase'])
+      ).rejects.toThrow('Firebase not configured');
     });
 
     it('should handle Doppler fetch errors', async () => {
       mockDoppler.getSecrets.mockRejectedValue(new Error('Auth failed'));
       vi.mocked(createPlatformClients).mockReturnValue({});
 
-      await program.parseAsync(['node', 'test', 'sync']);
-
-      expect(console.error).toHaveBeenCalled();
-      expect(exitSpy).toHaveBeenCalledWith(1);
+      await expect(
+        program.parseAsync(['node', 'test', 'sync'])
+      ).rejects.toThrow('Auth failed');
     });
   });
 

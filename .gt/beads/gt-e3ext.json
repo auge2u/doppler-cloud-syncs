@@ -22,5 +22,5 @@
     "packages/cli/src/index.ts",
     "packages/cli/src/commands/"
   ],
-  "status": "pending"
+  "status": "completed"
 }

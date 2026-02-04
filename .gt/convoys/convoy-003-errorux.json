@@ -15,6 +15,6 @@
     "Spinner shown during network calls"
   ],
   "blocked_by": ["convoy-002"],
-  "status": "pending",
+  "status": "completed",
   "created_at": "2026-02-04"
 }

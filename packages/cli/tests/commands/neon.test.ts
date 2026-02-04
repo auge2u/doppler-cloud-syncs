@@ -112,13 +112,9 @@ describe('neon command', () => {
     it('should require API key', async () => {
       delete process.env.NEON_API_KEY;
 
-      await program.parseAsync(['node', 'test', 'neon', 'branch', 'list']);
-
-      expect(console.error).toHaveBeenCalledWith(
-        expect.anything(),
-        'NEON_API_KEY required'
-      );
-      expect(process.exit).toHaveBeenCalledWith(1);
+      await expect(
+        program.parseAsync(['node', 'test', 'neon', 'branch', 'list'])
+      ).rejects.toThrow('Neon API key not found');
     });
   });
 
@@ -179,12 +175,9 @@ describe('neon command', () => {
     it('should prevent deletion of main branch', async () => {
       mockNeon.findBranchByName.mockResolvedValue({ id: 'br-main', name: 'main', parent_id: null });
 
-      await program.parseAsync(['node', 'test', 'neon', 'branch', 'delete', 'main', '--yes']);
-
-      expect(console.error).toHaveBeenCalledWith(
-        expect.anything(),
-        'Cannot delete main branch'
-      );
+      await expect(
+        program.parseAsync(['node', 'test', 'neon', 'branch', 'delete', 'main', '--yes'])
+      ).rejects.toThrow('Cannot delete main branch');
     });
   });
 
@@ -246,12 +239,9 @@ describe('neon command', () => {
     it('should error if migrations directory not found', async () => {
       vi.mocked(existsSync).mockReturnValue(false);
 
-      await program.parseAsync(['node', 'test', 'neon', 'migrate']);
-
-      expect(console.error).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.stringContaining('Migrations directory not found')
-      );
+      await expect(
+        program.parseAsync(['node', 'test', 'neon', 'migrate'])
+      ).rejects.toThrow('Migrations directory not found');
     });
   });
 

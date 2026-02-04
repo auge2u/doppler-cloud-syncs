@@ -2,6 +2,8 @@ import type { Command } from 'commander';
 import chalk from 'chalk';
 import { loadConfig } from '../config/index.js';
 import { createDopplerClient, createPlatformClients, type Platform, type SyncResult } from '../platforms/index.js';
+import { PlatformError } from '../errors.js';
+import { createSpinner } from '../ui/index.js';
 
 export function registerSyncCommand(program: Command): void {
   program
@@ -11,17 +13,24 @@ export function registerSyncCommand(program: Command): void {
     .option('--dry-run', 'Show what would be synced without making changes')
     .option('-q, --quiet', 'Minimal output (for use in scripts/hooks)')
     .action(async (platform: Platform | undefined, options) => {
-      const log = options.quiet ? () => {} : console.log;
+      const quiet = options.quiet ?? false;
+      const log = quiet ? () => {} : console.log;
 
       try {
         const config = await loadConfig();
         const doppler = createDopplerClient(config, options.config);
         const clients = createPlatformClients(config);
 
-        log(chalk.cyan('→'), `Fetching secrets from Doppler (${options.config})...`);
+        // Fetch secrets with spinner
+        const fetchSpinner = createSpinner({
+          enabled: !quiet,
+          text: `Fetching secrets from Doppler (${options.config})...`,
+        });
+        fetchSpinner.start();
+
         const secrets = await doppler.getSecrets();
         const secretCount = Object.keys(secrets).length;
-        log(chalk.green('✓'), `Found ${secretCount} secrets`);
+        fetchSpinner.succeed(`Found ${secretCount} secrets`);
 
         if (options.dryRun) {
           log(chalk.yellow('\n[DRY RUN] Would sync to:'));
@@ -34,7 +43,7 @@ export function registerSyncCommand(program: Command): void {
           : Object.keys(clients) as Platform[];
 
         for (const p of platformsToSync) {
-          const result = await syncPlatform(p, clients, secrets, options.dryRun, options.quiet);
+          const result = await syncPlatform(p, clients, secrets, options.dryRun, quiet);
           results.push(result);
         }
 
@@ -49,11 +58,11 @@ export function registerSyncCommand(program: Command): void {
 
         const failed = results.filter(r => !r.success);
         if (failed.length > 0) {
-          process.exit(1);
+          const errors = failed.map(f => `${f.platform}: ${f.error}`).join(', ');
+          throw PlatformError.operationFailed('sync', 'sync secrets', errors);
         }
       } catch (err) {
-        console.error(chalk.red('Error:'), (err as Error).message);
-        process.exit(1);
+        throw err;
       }
     });
 }
@@ -65,7 +74,6 @@ async function syncPlatform(
   dryRun: boolean,
   quiet: boolean = false
 ): Promise<SyncResult> {
-  const log = quiet ? () => {} : console.log;
   const result: SyncResult = {
     platform,
     success: false,
@@ -89,8 +97,13 @@ async function syncPlatform(
         result.removed = diff.toRemove.length;
 
         if (!dryRun) {
-          log(chalk.cyan('→'), `Syncing to Firebase...`);
+          const spinner = createSpinner({
+            enabled: !quiet,
+            text: 'Syncing to Firebase...',
+          });
+          spinner.start();
           await client.syncFromDoppler(secrets);
+          spinner.succeed('Synced to Firebase');
         }
         result.success = true;
         break;
@@ -109,8 +122,13 @@ async function syncPlatform(
         result.removed = diff.toRemove.length;
 
         if (!dryRun) {
-          log(chalk.cyan('→'), `Syncing to Cloudflare Workers...`);
+          const spinner = createSpinner({
+            enabled: !quiet,
+            text: 'Syncing to Cloudflare Workers...',
+          });
+          spinner.start();
           await client.syncFromDoppler(secrets);
+          spinner.succeed('Synced to Cloudflare');
         }
         result.success = true;
         break;
