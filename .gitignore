@@ -12,6 +12,7 @@ firebase-debug.log
 
 # Node
 node_modules/
+dist/
 
 # IDE
 .idea/
