@@ -20,5 +20,5 @@
   "files": [
     ".github/workflows/ci.yml"
   ],
-  "status": "pending"
+  "status": "completed"
 }

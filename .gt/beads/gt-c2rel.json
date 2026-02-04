@@ -20,5 +20,5 @@
   "files": [
     ".github/workflows/release.yml"
   ],
-  "status": "pending"
+  "status": "completed"
 }
