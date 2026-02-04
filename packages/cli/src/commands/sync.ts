@@ -9,19 +9,22 @@ export function registerSyncCommand(program: Command): void {
     .description('Sync secrets from Doppler to platforms')
     .option('-c, --config <env>', 'Environment config to sync', 'dev')
     .option('--dry-run', 'Show what would be synced without making changes')
+    .option('-q, --quiet', 'Minimal output (for use in scripts/hooks)')
     .action(async (platform: Platform | undefined, options) => {
+      const log = options.quiet ? () => {} : console.log;
+
       try {
         const config = await loadConfig();
         const doppler = createDopplerClient(config, options.config);
         const clients = createPlatformClients(config);
 
-        console.log(chalk.cyan('→'), `Fetching secrets from Doppler (${options.config})...`);
+        log(chalk.cyan('→'), `Fetching secrets from Doppler (${options.config})...`);
         const secrets = await doppler.getSecrets();
         const secretCount = Object.keys(secrets).length;
-        console.log(chalk.green('✓'), `Found ${secretCount} secrets`);
+        log(chalk.green('✓'), `Found ${secretCount} secrets`);
 
         if (options.dryRun) {
-          console.log(chalk.yellow('\n[DRY RUN] Would sync to:'));
+          log(chalk.yellow('\n[DRY RUN] Would sync to:'));
         }
 
         const results: SyncResult[] = [];
@@ -31,17 +34,17 @@ export function registerSyncCommand(program: Command): void {
           : Object.keys(clients) as Platform[];
 
         for (const p of platformsToSync) {
-          const result = await syncPlatform(p, clients, secrets, options.dryRun);
+          const result = await syncPlatform(p, clients, secrets, options.dryRun, options.quiet);
           results.push(result);
         }
 
-        console.log('\n' + chalk.cyan('Summary:'));
+        log('\n' + chalk.cyan('Summary:'));
         for (const r of results) {
           const status = r.success ? chalk.green('✓') : chalk.red('✗');
           const details = r.success
             ? `+${r.added} ~${r.updated} -${r.removed}`
             : r.error;
-          console.log(`  ${status} ${r.platform}: ${details}`);
+          log(`  ${status} ${r.platform}: ${details}`);
         }
 
         const failed = results.filter(r => !r.success);
@@ -59,8 +62,10 @@ async function syncPlatform(
   platform: Platform,
   clients: ReturnType<typeof createPlatformClients>,
   secrets: Record<string, string>,
-  dryRun: boolean
+  dryRun: boolean,
+  quiet: boolean = false
 ): Promise<SyncResult> {
+  const log = quiet ? () => {} : console.log;
   const result: SyncResult = {
     platform,
     success: false,
@@ -84,7 +89,7 @@ async function syncPlatform(
         result.removed = diff.toRemove.length;
 
         if (!dryRun) {
-          console.log(chalk.cyan('→'), `Syncing to Firebase...`);
+          log(chalk.cyan('→'), `Syncing to Firebase...`);
           await client.syncFromDoppler(secrets);
         }
         result.success = true;
@@ -104,7 +109,7 @@ async function syncPlatform(
         result.removed = diff.toRemove.length;
 
         if (!dryRun) {
-          console.log(chalk.cyan('→'), `Syncing to Cloudflare Workers...`);
+          log(chalk.cyan('→'), `Syncing to Cloudflare Workers...`);
           await client.syncFromDoppler(secrets);
         }
         result.success = true;

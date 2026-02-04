@@ -6,6 +6,8 @@ import { registerRunCommand } from './run.js';
 import { registerDiffCommand } from './diff.js';
 import { registerProvisionCommand } from './provision.js';
 import { registerNeonCommand } from './neon.js';
+import { registerHooksCommand } from './hooks.js';
+import { registerWebhookCommand } from './webhook.js';
 
 export function registerCommands(program: Command): void {
   registerInitCommand(program);
@@ -15,4 +17,6 @@ export function registerCommands(program: Command): void {
   registerDiffCommand(program);
   registerProvisionCommand(program);
   registerNeonCommand(program);
+  registerHooksCommand(program);
+  registerWebhookCommand(program);
 }
