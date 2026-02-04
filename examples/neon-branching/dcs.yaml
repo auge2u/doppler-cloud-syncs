@@ -1,0 +1,18 @@
+project: neon-branching-example
+
+doppler:
+  project: neon-branching-example
+  configs:
+    dev: dev
+    staging: stg
+    prod: prd
+
+platforms:
+  neon:
+    project_id: your-neon-project-id  # Replace after running: dcs provision neon
+    database: neondb
+    migrations_dir: ./migrations
+    branch_mapping:
+      dev: dev-branch
+      staging: staging-branch
+      prod: main

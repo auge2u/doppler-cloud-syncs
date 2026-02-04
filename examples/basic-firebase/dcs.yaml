@@ -1,0 +1,12 @@
+project: basic-firebase-example
+
+doppler:
+  project: basic-firebase-example
+  configs:
+    dev: dev
+    staging: stg
+    prod: prd
+
+platforms:
+  firebase:
+    project_id: my-firebase-project  # Replace with your Firebase project ID

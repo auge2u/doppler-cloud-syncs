@@ -1,0 +1,28 @@
+project: multi-platform-example
+
+doppler:
+  project: multi-platform-example
+  configs:
+    dev: dev
+    staging: stg
+    prod: prd
+
+platforms:
+  # Firebase Functions
+  firebase:
+    project_id: my-firebase-project      # Replace with your Firebase project ID
+
+  # Cloudflare Workers
+  cloudflare:
+    account_id: your-cloudflare-account  # Replace with your Cloudflare account ID
+    worker: my-api-worker                # Replace with your worker name
+
+  # Neon Database
+  neon:
+    project_id: your-neon-project-id     # Replace after: dcs provision neon
+    database: neondb
+    migrations_dir: ./migrations
+    branch_mapping:
+      dev: dev-branch
+      staging: staging-branch
+      prod: main

@@ -24,5 +24,5 @@
     "examples/cloudflare-worker/",
     "examples/multi-platform/"
   ],
-  "status": "pending"
+  "status": "completed"
 }

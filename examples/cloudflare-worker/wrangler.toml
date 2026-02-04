@@ -1,0 +1,9 @@
+name = "my-worker"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+# Secrets are managed via dcs sync
+# Run: dcs sync cloudflare
+
+[vars]
+ENVIRONMENT = "development"

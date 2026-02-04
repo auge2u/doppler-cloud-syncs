@@ -1,0 +1,13 @@
+project: cloudflare-worker-example
+
+doppler:
+  project: cloudflare-worker-example
+  configs:
+    dev: dev
+    staging: stg
+    prod: prd
+
+platforms:
+  cloudflare:
+    account_id: your-cloudflare-account-id  # Replace with your account ID
+    worker: my-worker                        # Replace with your worker name
