@@ -22,5 +22,5 @@
     "packages/runtime/package.json",
     "packages/dotfiles/package.json"
   ],
-  "status": "pending"
+  "status": "completed"
 }

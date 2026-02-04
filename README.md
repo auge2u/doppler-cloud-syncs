@@ -1,5 +1,9 @@
 # doppler-cloud-syncs
 
+[![CI](https://github.com/auge2u/doppler-cloud-syncs/actions/workflows/ci.yml/badge.svg)](https://github.com/auge2u/doppler-cloud-syncs/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@auge2u/dcs.svg)](https://www.npmjs.com/package/@auge2u/dcs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Unified secret management across cloud platforms using Doppler as the source of truth.
 
 ## Packages

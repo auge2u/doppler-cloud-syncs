@@ -1,8 +1,19 @@
 {
   "name": "@auge2u/dcs-runtime",
   "version": "0.1.0",
-  "description": "Runtime secret injection for serverless platforms",
+  "description": "Runtime secret injection for serverless platforms (Firebase, Cloudflare, Cloud Run)",
   "type": "module",
+  "license": "MIT",
+  "author": "auge2u",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/auge2u/doppler-cloud-syncs.git",
+    "directory": "packages/runtime"
+  },
+  "homepage": "https://github.com/auge2u/doppler-cloud-syncs#readme",
+  "bugs": {
+    "url": "https://github.com/auge2u/doppler-cloud-syncs/issues"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -35,6 +46,17 @@
     "lint": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
+  "keywords": [
+    "doppler",
+    "secrets",
+    "serverless",
+    "firebase",
+    "cloudflare",
+    "workers",
+    "cloud-run",
+    "runtime",
+    "environment-variables"
+  ],
   "peerDependencies": {
     "firebase-functions": ">=4.0.0"
   },
@@ -51,13 +73,5 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "keywords": [
-    "doppler",
-    "secrets",
-    "serverless",
-    "firebase",
-    "cloudflare",
-    "workers"
-  ]
+  }
 }

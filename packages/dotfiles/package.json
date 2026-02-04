@@ -10,6 +10,10 @@
     "url": "https://github.com/auge2u/doppler-cloud-syncs.git",
     "directory": "packages/dotfiles"
   },
+  "homepage": "https://github.com/auge2u/doppler-cloud-syncs#readme",
+  "bugs": {
+    "url": "https://github.com/auge2u/doppler-cloud-syncs/issues"
+  },
   "files": [
     "shell",
     "completions",
@@ -29,6 +33,7 @@
     "shell",
     "completions",
     "zsh",
-    "bash"
+    "bash",
+    "oh-my-zsh"
   ]
 }
