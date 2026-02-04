@@ -1,0 +1,26 @@
+{
+  "id": "gt-e3ext",
+  "title": "Implement consistent exit codes",
+  "type": "feature",
+  "description": "Define and implement consistent exit codes for scripting and CI integration.",
+  "acceptance_criteria": [
+    "Exit 0: Success",
+    "Exit 1: General error",
+    "Exit 2: Config error",
+    "Exit 3: Auth error",
+    "Exit 4: Platform error",
+    "Document exit codes in help"
+  ],
+  "complexity": "S",
+  "phase": "v0.4.0",
+  "epic": "Error Handling",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 3.2: Exit Codes"
+  },
+  "files": [
+    "packages/cli/src/index.ts",
+    "packages/cli/src/commands/"
+  ],
+  "status": "pending"
+}

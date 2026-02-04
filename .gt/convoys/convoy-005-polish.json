@@ -1,0 +1,20 @@
+{
+  "id": "convoy-005",
+  "name": "Polish for v1.0",
+  "description": "Security audit, package metadata, and final e2e validation (Phase 4, v1.0.0)",
+  "phase": "v1.0.0",
+  "beads": [
+    "gt-p5sec",
+    "gt-p5pkg",
+    "gt-p5e2e"
+  ],
+  "theme": "release-readiness",
+  "exit_criteria": [
+    "SECURITY.md exists",
+    "All packages have complete metadata",
+    "E2E workflow tested on clean machine"
+  ],
+  "blocked_by": ["convoy-004"],
+  "status": "pending",
+  "created_at": "2026-02-04"
+}

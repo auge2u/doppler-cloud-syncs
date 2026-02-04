@@ -1,0 +1,24 @@
+{
+  "id": "gt-d4ref",
+  "title": "Write command reference documentation",
+  "type": "docs",
+  "description": "Document all CLI commands with options, examples, and troubleshooting.",
+  "acceptance_criteria": [
+    "Document all commands in README",
+    "Document all options and flags",
+    "Include examples for each command",
+    "Troubleshooting section"
+  ],
+  "complexity": "M",
+  "phase": "v1.0.0",
+  "epic": "Documentation",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 4.1: Command Reference"
+  },
+  "files": [
+    "README.md",
+    "packages/cli/README.md"
+  ],
+  "status": "pending"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "gt-p5pkg",
+  "title": "Complete package metadata",
+  "type": "chore",
+  "description": "Ensure all packages have complete metadata for npm publishing.",
+  "acceptance_criteria": [
+    "package.json: description, keywords, repository, homepage",
+    "package.json: engines, license, author",
+    "README badges: npm version, CI status, license",
+    "TypeScript declarations published"
+  ],
+  "complexity": "S",
+  "phase": "v1.0.0",
+  "epic": "Polish for v1.0",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 5.2: Package Metadata"
+  },
+  "files": [
+    "package.json",
+    "packages/cli/package.json",
+    "packages/runtime/package.json",
+    "packages/dotfiles/package.json"
+  ],
+  "status": "pending"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "gt-t1plt",
+  "title": "Add tests for platform adapters",
+  "type": "chore",
+  "description": "Write unit tests for all platform adapters (Doppler, Firebase, Cloudflare, Neon) with mocked CLI calls.",
+  "acceptance_criteria": [
+    "DopplerClient: getSecrets, setSecret, setSecrets, listConfigs, diff tested",
+    "FirebaseClient: getConfig, setConfig, syncFromDoppler, diff tested",
+    "CloudflareClient: listSecrets, syncFromDoppler, deleteSecret, diff tested",
+    "NeonClient: all branch and migration operations tested",
+    "All tests use mocked execFileSync"
+  ],
+  "complexity": "L",
+  "phase": "v0.2.0",
+  "epic": "Test Coverage",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 1.2: Platform Adapter Tests"
+  },
+  "files": [
+    "packages/cli/src/platforms/doppler.ts",
+    "packages/cli/src/platforms/firebase.ts",
+    "packages/cli/src/platforms/cloudflare.ts",
+    "packages/cli/src/platforms/neon.ts",
+    "packages/cli/tests/platforms/"
+  ],
+  "status": "pending"
+}

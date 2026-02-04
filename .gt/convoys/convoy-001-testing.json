@@ -1,0 +1,20 @@
+{
+  "id": "convoy-001",
+  "name": "Testing & Quality",
+  "description": "Comprehensive test coverage for CLI and runtime packages (Phase 1, v0.2.0)",
+  "phase": "v0.2.0",
+  "beads": [
+    "gt-t1cfg",
+    "gt-t1plt",
+    "gt-t1cmd",
+    "gt-t1run"
+  ],
+  "theme": "test-coverage",
+  "exit_criteria": [
+    ">80% line coverage on packages/cli",
+    ">70% line coverage on packages/runtime",
+    "All tests pass with pnpm test"
+  ],
+  "status": "pending",
+  "created_at": "2026-02-04"
+}

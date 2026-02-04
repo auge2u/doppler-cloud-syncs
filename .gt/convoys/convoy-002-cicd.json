@@ -1,0 +1,20 @@
+{
+  "id": "convoy-002",
+  "name": "CI/CD & Publishing",
+  "description": "Automated quality gates and npm publishing workflows (Phase 2, v0.3.0)",
+  "phase": "v0.3.0",
+  "beads": [
+    "gt-c2ciw",
+    "gt-c2rel",
+    "gt-c2chs"
+  ],
+  "theme": "automation",
+  "exit_criteria": [
+    "CI runs on every PR",
+    "All 3 packages published to npm",
+    "CHANGELOG.md auto-updates"
+  ],
+  "blocked_by": ["convoy-001"],
+  "status": "pending",
+  "created_at": "2026-02-04"
+}

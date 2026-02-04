@@ -1,0 +1,27 @@
+{
+  "id": "gt-t1cfg",
+  "title": "Add comprehensive tests for config module",
+  "type": "chore",
+  "description": "Write unit tests for the config module covering schema validation, environment variable interpolation, and error handling.",
+  "acceptance_criteria": [
+    "Test valid dcs.yaml parsing",
+    "Test environment variable interpolation",
+    "Test missing config file error",
+    "Test invalid YAML error",
+    "Test schema validation failures",
+    "Test findConfigFile traversal"
+  ],
+  "complexity": "M",
+  "phase": "v0.2.0",
+  "epic": "Test Coverage",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 1.1: Config Module Tests"
+  },
+  "files": [
+    "packages/cli/src/config/loader.ts",
+    "packages/cli/src/config/schema.ts",
+    "packages/cli/tests/config/"
+  ],
+  "status": "pending"
+}

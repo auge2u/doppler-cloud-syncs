@@ -1,0 +1,20 @@
+{
+  "id": "convoy-003",
+  "name": "Error Handling & UX",
+  "description": "Actionable errors, exit codes, and progress indicators (Phase 3, v0.4.0)",
+  "phase": "v0.4.0",
+  "beads": [
+    "gt-e3tax",
+    "gt-e3ext",
+    "gt-e3prg"
+  ],
+  "theme": "developer-experience",
+  "exit_criteria": [
+    "No stack traces in normal error output",
+    "All errors have exit code != 0",
+    "Spinner shown during network calls"
+  ],
+  "blocked_by": ["convoy-002"],
+  "status": "pending",
+  "created_at": "2026-02-04"
+}

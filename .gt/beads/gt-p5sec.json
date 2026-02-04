@@ -1,0 +1,25 @@
+{
+  "id": "gt-p5sec",
+  "title": "Perform security audit",
+  "type": "chore",
+  "description": "Audit the codebase for security issues related to secret handling and create SECURITY.md.",
+  "acceptance_criteria": [
+    "Audit: no secrets logged by default",
+    "Audit: temp files cleaned up",
+    "Audit: no unsafe command execution",
+    "Create SECURITY.md"
+  ],
+  "complexity": "M",
+  "phase": "v1.0.0",
+  "epic": "Polish for v1.0",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 5.1: Security Audit"
+  },
+  "files": [
+    "SECURITY.md",
+    "packages/cli/src/",
+    "packages/runtime/src/"
+  ],
+  "status": "pending"
+}

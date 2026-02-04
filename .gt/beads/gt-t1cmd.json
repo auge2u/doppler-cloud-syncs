@@ -1,0 +1,28 @@
+{
+  "id": "gt-t1cmd",
+  "title": "Add tests for CLI commands",
+  "type": "chore",
+  "description": "Write unit tests for CLI commands covering option parsing, output formatting, and behavior.",
+  "acceptance_criteria": [
+    "Test init creates correct config file",
+    "Test sync calls correct platform methods",
+    "Test status displays platform states",
+    "Test diff shows correct changes",
+    "Test run spawns process with secrets",
+    "Test neon subcommands",
+    "Test hooks subcommands",
+    "Test webhook subcommands"
+  ],
+  "complexity": "L",
+  "phase": "v0.2.0",
+  "epic": "Test Coverage",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 1.3: Command Tests"
+  },
+  "files": [
+    "packages/cli/src/commands/",
+    "packages/cli/tests/commands/"
+  ],
+  "status": "pending"
+}

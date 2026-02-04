@@ -1,0 +1,28 @@
+{
+  "id": "gt-d4exm",
+  "title": "Create examples directory",
+  "type": "docs",
+  "description": "Create working examples for common use cases with READMEs.",
+  "acceptance_criteria": [
+    "Create examples/ directory",
+    "Example: basic-firebase",
+    "Example: neon-branching",
+    "Example: cloudflare-worker",
+    "Example: multi-platform",
+    "Each example has README"
+  ],
+  "complexity": "M",
+  "phase": "v1.0.0",
+  "epic": "Documentation",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 4.3: Examples Directory"
+  },
+  "files": [
+    "examples/basic-firebase/",
+    "examples/neon-branching/",
+    "examples/cloudflare-worker/",
+    "examples/multi-platform/"
+  ],
+  "status": "pending"
+}

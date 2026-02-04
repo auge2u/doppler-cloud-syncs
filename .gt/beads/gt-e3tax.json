@@ -1,0 +1,24 @@
+{
+  "id": "gt-e3tax",
+  "title": "Implement error taxonomy",
+  "type": "feature",
+  "description": "Create error classes with codes, messages, and actionable suggestions for all error types.",
+  "acceptance_criteria": [
+    "Define error classes: ConfigError, AuthError, NetworkError, PlatformError",
+    "Each error has: code, message, suggestion",
+    "Errors are logged without stack traces by default",
+    "--verbose shows stack traces"
+  ],
+  "complexity": "M",
+  "phase": "v0.4.0",
+  "epic": "Error Handling",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 3.1: Error Taxonomy"
+  },
+  "files": [
+    "packages/cli/src/errors.ts",
+    "packages/cli/src/commands/"
+  ],
+  "status": "pending"
+}

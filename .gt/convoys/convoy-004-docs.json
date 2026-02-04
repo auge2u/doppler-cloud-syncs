@@ -1,0 +1,20 @@
+{
+  "id": "convoy-004",
+  "name": "Documentation",
+  "description": "Command reference, architecture docs, and examples (Phase 4, v1.0.0)",
+  "phase": "v1.0.0",
+  "beads": [
+    "gt-d4ref",
+    "gt-d4arc",
+    "gt-d4exm"
+  ],
+  "theme": "documentation",
+  "exit_criteria": [
+    "README has quick start, full reference, troubleshooting",
+    "Architecture docs with diagrams exist",
+    "Examples work out of the box"
+  ],
+  "blocked_by": ["convoy-003"],
+  "status": "pending",
+  "created_at": "2026-02-04"
+}

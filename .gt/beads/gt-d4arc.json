@@ -1,0 +1,24 @@
+{
+  "id": "gt-d4arc",
+  "title": "Write architecture documentation",
+  "type": "docs",
+  "description": "Create architecture documentation for contributors with diagrams and key abstractions.",
+  "acceptance_criteria": [
+    "Create docs/architecture.md",
+    "Diagram: package structure",
+    "Diagram: sync flow",
+    "Diagram: runtime adapter flow",
+    "List key abstractions"
+  ],
+  "complexity": "M",
+  "phase": "v1.0.0",
+  "epic": "Documentation",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 4.2: Architecture Documentation"
+  },
+  "files": [
+    "docs/architecture.md"
+  ],
+  "status": "pending"
+}

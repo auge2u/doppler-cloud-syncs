@@ -1,0 +1,24 @@
+{
+  "id": "gt-c2rel",
+  "title": "Create GitHub Actions release workflow",
+  "type": "chore",
+  "description": "Set up GitHub Actions workflow to publish packages to npm on version tags.",
+  "acceptance_criteria": [
+    "Workflow at .github/workflows/release.yml",
+    "Triggers on v* tags",
+    "Publishes all packages to npm",
+    "Creates GitHub Release with changelog",
+    "Uses npm provenance"
+  ],
+  "complexity": "M",
+  "phase": "v0.3.0",
+  "epic": "CI/CD Pipeline",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 2.2: Release Workflow"
+  },
+  "files": [
+    ".github/workflows/release.yml"
+  ],
+  "status": "pending"
+}

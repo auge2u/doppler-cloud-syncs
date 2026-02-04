@@ -1,0 +1,25 @@
+{
+  "id": "gt-e3prg",
+  "title": "Add progress indicators",
+  "type": "feature",
+  "description": "Add spinners and progress bars for visual feedback during long operations.",
+  "acceptance_criteria": [
+    "Spinner during network calls",
+    "Progress bar for multi-step operations",
+    "Spinner stops on error or success",
+    "No spinner in --quiet mode"
+  ],
+  "complexity": "S",
+  "phase": "v0.4.0",
+  "epic": "Error Handling",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 3.3: Progress Indicators"
+  },
+  "files": [
+    "packages/cli/src/ui/spinner.ts",
+    "packages/cli/src/commands/"
+  ],
+  "dependencies": ["ora"],
+  "status": "pending"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "gt-c2chs",
+  "title": "Integrate changesets for versioning",
+  "type": "chore",
+  "description": "Set up changesets for automated changelog generation and version management.",
+  "acceptance_criteria": [
+    "Install @changesets/cli",
+    "Configure .changeset/config.json",
+    "Document changeset workflow in CONTRIBUTING.md",
+    "Changelog auto-generated on release"
+  ],
+  "complexity": "S",
+  "phase": "v0.3.0",
+  "epic": "CI/CD Pipeline",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 2.3: Changesets Integration"
+  },
+  "files": [
+    ".changeset/config.json",
+    "CONTRIBUTING.md",
+    "CHANGELOG.md"
+  ],
+  "status": "pending"
+}

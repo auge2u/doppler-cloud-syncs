@@ -1,0 +1,22 @@
+{
+  "id": "gt-p5e2e",
+  "title": "Perform end-to-end validation",
+  "type": "chore",
+  "description": "Validate the entire workflow end-to-end before v1.0 release.",
+  "acceptance_criteria": [
+    "Test full workflow: init -> sync -> run",
+    "Test on clean machine (Docker)",
+    "Test with real Doppler project",
+    "Test each platform adapter",
+    "Fix all discovered issues"
+  ],
+  "complexity": "L",
+  "phase": "v1.0.0",
+  "epic": "Polish for v1.0",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 5.3: Final Testing"
+  },
+  "files": [],
+  "status": "pending"
+}

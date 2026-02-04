@@ -1,0 +1,27 @@
+{
+  "id": "gt-t1run",
+  "title": "Add tests for runtime adapters",
+  "type": "chore",
+  "description": "Write unit tests for serverless runtime adapters covering secret injection, caching, and error handling.",
+  "acceptance_criteria": [
+    "Firebase adapter: withSecrets wrapper tested",
+    "Cloudflare adapter: withSecrets wrapper tested",
+    "Cloud Run adapter: initSecrets, getSecret tested",
+    "Cache module: TTL and refresh behavior tested",
+    "Fetcher module: Doppler API mocking tested"
+  ],
+  "complexity": "M",
+  "phase": "v0.2.0",
+  "epic": "Test Coverage",
+  "evidence": {
+    "source": "scopecraft/EPICS_AND_STORIES.md",
+    "story": "Story 1.4: Runtime Adapter Tests"
+  },
+  "files": [
+    "packages/runtime/src/adapters/",
+    "packages/runtime/src/cache.ts",
+    "packages/runtime/src/fetcher.ts",
+    "packages/runtime/tests/"
+  ],
+  "status": "pending"
+}
