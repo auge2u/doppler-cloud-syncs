@@ -1,0 +1,15 @@
+setup:
+  project: doppler-cloud-syncs
+  config: dev
+
+# Environment to Firebase project mapping
+environments:
+  dev:
+    doppler_config: dev
+    firebase_project: dev
+  staging:
+    doppler_config: stg
+    firebase_project: staging
+  production:
+    doppler_config: prd
+    firebase_project: production
