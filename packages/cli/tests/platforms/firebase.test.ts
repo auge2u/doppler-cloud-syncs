@@ -61,4 +61,92 @@ describe('FirebaseClient', () => {
       );
     });
   });
+
+  describe('unsetConfig', () => {
+    it('should unset Firebase config keys', async () => {
+      vi.mocked(execFileSync).mockReturnValue('');
+
+      const client = new FirebaseClient({ projectId: 'test-project' });
+      await client.unsetConfig(['doppler.api_key', 'doppler.db_url']);
+
+      expect(execFileSync).toHaveBeenCalledWith(
+        'firebase',
+        expect.arrayContaining(['functions:config:unset', 'doppler.api_key', 'doppler.db_url']),
+        expect.any(Object)
+      );
+    });
+
+    it('should not call CLI if no keys provided', async () => {
+      const client = new FirebaseClient({ projectId: 'test-project' });
+      await client.unsetConfig([]);
+
+      expect(execFileSync).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('diff', () => {
+    it('should identify keys to add, remove, and update', async () => {
+      const currentConfig = {
+        doppler: {
+          existing: 'old-value',
+          to_remove: 'remove-me',
+          unchanged: 'same',
+        },
+      };
+      vi.mocked(execFileSync).mockReturnValue(JSON.stringify(currentConfig));
+
+      const client = new FirebaseClient({ projectId: 'test-project' });
+      const result = await client.diff({
+        EXISTING: 'new-value',
+        UNCHANGED: 'same',
+        NEW_KEY: 'added',
+      });
+
+      expect(result.toAdd).toContain('new_key');
+      expect(result.toRemove).toContain('to_remove');
+      expect(result.toUpdate).toContain('existing');
+    });
+
+    it('should return empty arrays when in sync', async () => {
+      const currentConfig = {
+        doppler: {
+          api_key: 'secret',
+        },
+      };
+      vi.mocked(execFileSync).mockReturnValue(JSON.stringify(currentConfig));
+
+      const client = new FirebaseClient({ projectId: 'test-project' });
+      const result = await client.diff({ API_KEY: 'secret' });
+
+      expect(result.toAdd).toEqual([]);
+      expect(result.toRemove).toEqual([]);
+      expect(result.toUpdate).toEqual([]);
+    });
+
+    it('should handle empty current config', async () => {
+      vi.mocked(execFileSync).mockReturnValue('{}');
+
+      const client = new FirebaseClient({ projectId: 'test-project' });
+      const result = await client.diff({ API_KEY: 'secret' });
+
+      expect(result.toAdd).toContain('api_key');
+      expect(result.toRemove).toEqual([]);
+      expect(result.toUpdate).toEqual([]);
+    });
+  });
+
+  describe('with token', () => {
+    it('should include token in CLI arguments', async () => {
+      vi.mocked(execFileSync).mockReturnValue('{}');
+
+      const client = new FirebaseClient({ projectId: 'test-project', token: 'fb-token' });
+      await client.getConfig();
+
+      expect(execFileSync).toHaveBeenCalledWith(
+        'firebase',
+        expect.arrayContaining(['--token', 'fb-token']),
+        expect.any(Object)
+      );
+    });
+  });
 });

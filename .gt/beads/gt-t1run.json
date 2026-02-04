@@ -23,5 +23,5 @@
     "packages/runtime/src/fetcher.ts",
     "packages/runtime/tests/"
   ],
-  "status": "pending"
+  "status": "completed"
 }

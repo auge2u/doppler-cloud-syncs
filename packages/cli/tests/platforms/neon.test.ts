@@ -117,4 +117,134 @@ describe('NeonClient', () => {
       await expect(client.listProjects()).rejects.toThrow('Neon API error (401)');
     });
   });
+
+  describe('deleteBranch', () => {
+    it('should delete a branch', async () => {
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({}),
+      });
+
+      const client = new NeonClient({ apiKey: 'test-key', projectId: 'proj-1' });
+      await client.deleteBranch('br-dev');
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://console.neon.tech/api/v2/projects/proj-1/branches/br-dev',
+        expect.objectContaining({ method: 'DELETE' })
+      );
+    });
+
+    it('should throw if no project ID', async () => {
+      const client = new NeonClient({ apiKey: 'test-key' });
+      await expect(client.deleteBranch('br-dev')).rejects.toThrow('Project ID required');
+    });
+  });
+
+  describe('resetBranch', () => {
+    it('should reset a branch to its parent', async () => {
+      const mockResult = {
+        branch: { id: 'br-dev', name: 'dev', project_id: 'proj-1' },
+      };
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockResult),
+      });
+
+      const client = new NeonClient({ apiKey: 'test-key', projectId: 'proj-1' });
+      const result = await client.resetBranch('br-dev');
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://console.neon.tech/api/v2/projects/proj-1/branches/br-dev/reset',
+        expect.objectContaining({ method: 'POST' })
+      );
+      expect(result.name).toBe('dev');
+    });
+
+    it('should reset with specific parent', async () => {
+      const mockResult = {
+        branch: { id: 'br-dev', name: 'dev', project_id: 'proj-1' },
+      };
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockResult),
+      });
+
+      const client = new NeonClient({ apiKey: 'test-key', projectId: 'proj-1' });
+      await client.resetBranch('br-dev', { parentId: 'br-main' });
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          body: JSON.stringify({ parent_id: 'br-main' }),
+        })
+      );
+    });
+  });
+
+  describe('getConnectionInfo', () => {
+    it('should build connection string from branch info', async () => {
+      mockFetch
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve({
+            endpoints: [{ id: 'ep-1', host: 'ep-xyz.neon.tech', branch_id: 'br-main' }],
+          }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve({
+            roles: [{ name: 'neondb_owner', branch_id: 'br-main' }],
+          }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve({
+            databases: [{ id: 1, name: 'neondb', owner_name: 'neondb_owner', branch_id: 'br-main' }],
+          }),
+        })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: () => Promise.resolve({ password: 'secret-pass' }),
+        });
+
+      const client = new NeonClient({ apiKey: 'test-key', projectId: 'proj-1' });
+      const info = await client.getConnectionInfo('br-main');
+
+      expect(info.host).toBe('ep-xyz.neon.tech');
+      expect(info.database).toBe('neondb');
+      expect(info.role).toBe('neondb_owner');
+      expect(info.password).toBe('secret-pass');
+      expect(info.connectionString).toContain('postgresql://');
+    });
+  });
+
+  describe('findBranchByName', () => {
+    it('should find branch by name', async () => {
+      const mockBranches = [
+        { id: 'br-main', name: 'main', project_id: 'proj-1' },
+        { id: 'br-dev', name: 'dev', project_id: 'proj-1' },
+      ];
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ branches: mockBranches }),
+      });
+
+      const client = new NeonClient({ apiKey: 'test-key', projectId: 'proj-1' });
+      const branch = await client.findBranchByName('dev');
+
+      expect(branch?.id).toBe('br-dev');
+    });
+
+    it('should return null if branch not found', async () => {
+      mockFetch.mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({ branches: [] }),
+      });
+
+      const client = new NeonClient({ apiKey: 'test-key', projectId: 'proj-1' });
+      const branch = await client.findBranchByName('nonexistent');
+
+      expect(branch).toBeNull();
+    });
+  });
 });

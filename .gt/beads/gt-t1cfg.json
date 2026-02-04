@@ -23,5 +23,5 @@
     "packages/cli/src/config/schema.ts",
     "packages/cli/tests/config/"
   ],
-  "status": "pending"
+  "status": "completed"
 }
